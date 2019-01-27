@@ -2,6 +2,7 @@ import React from 'react';
 import ContactInfo from './ContactInfo';
 import ContactDetails from './ContackDetails';
 import update from 'react-addons-update';
+import ContactCrate from './ContactCreate';
 
 export default class Contact extends React.Component {
     
@@ -54,6 +55,9 @@ export default class Contact extends React.Component {
     }
 
     handleRemove() {
+        if(this.state.selectedKey < 0) {
+            return ;
+        }
         this.setState({
             contactData: update(this.state.contactData,
                 {
@@ -104,7 +108,11 @@ export default class Contact extends React.Component {
                 <div>{mapToComponents(this.state.contactData)}</div>
                 <ContactDetails 
                     isSelected={this.state.selectedKey != -1}
-                    contact={this.state.contactData[this.state.selectedKey]}/>
+                    contact={this.state.contactData[this.state.selectedKey]}
+                    onRemove={this.handleRemove}
+                    onEdit={this.handleEdit}/>
+                <ContactCrate
+                    onCreate={this.handleCreate}/>
             </div>
         );
     }
